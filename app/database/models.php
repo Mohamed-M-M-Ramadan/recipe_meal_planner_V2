@@ -43,10 +43,29 @@ class UserModel extends Model {
         return $stmt->execute([$userId]);
     }
     public function getUserById($userId) {
-        $db = Database::getInstance();
-        $stmt = $db->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt = $this->db->prepare("SELECT * FROM Users WHERE user_id = ?");
         $stmt->execute([$userId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+}
+
+
+
+
+class UserService {
+    protected $db;
+    
+    public function __construct() {
+        $this->db = Database::getInstance();
+    }
+    
+    public function getFavorites($userId) {
+        $stmt = $this->db->prepare("SELECT r.* 
+                                   FROM Recipes r
+                                   JOIN User_Favorites uf ON r.recipe_id = uf.recipe_id
+                                   WHERE uf.user_id = ?");
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 
