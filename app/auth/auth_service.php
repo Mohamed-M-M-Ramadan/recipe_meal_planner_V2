@@ -27,4 +27,10 @@ class AuthService {
     public static function isAdmin() {
         return isset($_SESSION['user_level']) && $_SESSION['user_level'] == 1;
     }
+
+     public static function init() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
 }

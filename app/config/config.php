@@ -1,7 +1,7 @@
 <?php
 // Database configuration
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'recipe_planner_db');
+define('DB_NAME', 'recipe_planner');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 
