@@ -1,0 +1,18 @@
+<div class="recipe-grid">
+    <?php foreach ($recipes as $recipe): ?>
+    <div class="recipe-card">
+        <img src="<?= $recipe['image_path'] ?: '/app/static/images/placeholder.png' ?>" 
+             alt="<?= $recipe['title'] ?>" class="recipe-img">
+        <div class="recipe-content">
+            <h3><?= htmlspecialchars($recipe['title']) ?></h3>
+            <p><?= htmlspecialchars(substr($recipe['description'], 0, 100)) ?>...</p>
+            <div class="recipe-meta">
+                <span>Prep: <?= $recipe['prep_time'] ?> min</span>
+                <span>Cook: <?= $recipe['cook_time'] ?> min</span>
+                <span>Serves: <?= $recipe['servings'] ?></span>
+            </div>
+            <a href="recipe_detail.php?id=<?= $recipe['recipe_id'] ?>" class="btn">View Recipe</a>
+        </div>
+    </div>
+    <?php endforeach; ?>
+</div>

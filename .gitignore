@@ -1,0 +1,12 @@
+# Ignore environment files
+.env
+
+# Ignore uploaded images
+/app/static/images/uploads/
+
+# Ignore system files
+.DS_Store
+.idea/
+
+# Ignore log files
+*.log

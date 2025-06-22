@@ -1,0 +1,13 @@
+{
+    "name": "recipe-meal-planner",
+    "description": "Recipe and Meal Planning System",
+    "type": "project",
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
