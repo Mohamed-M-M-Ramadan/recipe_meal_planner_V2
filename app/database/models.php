@@ -6,6 +6,9 @@ abstract class Model {
     
     public function __construct() {
         $this->db = Database::getInstance();
+        if ($this->db === null) {
+            throw new Exception("Database connection is not established");
+        }
     }
 }
 
@@ -88,6 +91,10 @@ class RecipeModel extends Model {
                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         return $stmt->execute([$userId, $title, $description, $instructions, $prepTime, $cookTime, $servings, $status]);
     }
+        public function __construct() {
+        parent::__construct();
+        error_log("RecipeModel initialized with DB: " . get_class($this->db));
+    }
 
         public function update($recipeId, $data) {
         global $db;
@@ -113,10 +120,16 @@ class RecipeModel extends Model {
         return $stmt->execute([$status, $recipeId]);
     }
 
-        public function incrementViews($id) {
-        global $db;
-        $stmt = $db->prepare("UPDATE recipes SET views = views + 1 WHERE id = ?");
-        $stmt->execute([$id]);
+    public function incrementViews($recipeId) {
+        // First check if views column exists
+        $stmt = $this->db->prepare("SHOW COLUMNS FROM Recipes LIKE 'views'");
+        $stmt->execute();
+        $columnExists = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($columnExists) {
+            $stmt = $this->db->prepare("UPDATE Recipes SET views = views + 1 WHERE recipe_id = ?");
+            $stmt->execute([$recipeId]);
+        }
     }
     public function getRecipesByStatus($status) {
         $stmt = $this->db->prepare("SELECT * FROM Recipes WHERE status = ?");

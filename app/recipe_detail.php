@@ -4,6 +4,28 @@ require_once __DIR__ . '/auth/auth_service.php';
 require_once __DIR__ . '/database/db_connection.php';
 require_once __DIR__ . '/database/models.php';
 
+try {
+    $recipeModel = new RecipeModel();
+    $recipe = $recipeModel->getRecipeById($recipeId);
+    
+    if (!$recipe) {
+        header('Location: recipes.php');
+        exit;
+    }
+    
+    // Check if private recipe belongs to current user
+    if ($recipe['status'] === 'private' && (!AuthService::isLoggedIn() || $recipe['user_id'] != $_SESSION['user_id'])) {
+        header('Location: recipes.php');
+        exit;
+    }
+    
+    // Try to increment views
+    try {
+        $recipeModel->incrementViews($recipeId);
+    } catch (Exception $e) {
+        error_log("Failed to increment views: " . $e->getMessage());
+    }
+
 // Start session
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -44,7 +66,9 @@ if (AuthService::isLoggedIn()) {
 
 // Increment view count
 $recipeModel->incrementViews($recipeId);
-
+} catch (Exception $e) {
+    die("Error loading recipe: " . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

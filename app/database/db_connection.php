@@ -13,18 +13,24 @@ class Database {
                 DB_PASS,
                 [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_EMULATE_PREPARES => false
+                    PDO::ATTR_EMULATE_PREPARES => false,
+                    PDO::ATTR_PERSISTENT => true
                 ]
             );
         } catch (PDOException $e) {
             error_log("Database connection failed: " . $e->getMessage());
-            die("Database connection failed. Please try again later.");
+            throw new Exception("Database connection failed. Please try again later.");
         }
     }
 
     public static function getInstance() {
         if (!self::$instance) {
-            self::$instance = new Database();
+            try {
+                self::$instance = new Database();
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+                return null;
+            }
         }
         return self::$instance->connection;
     }
