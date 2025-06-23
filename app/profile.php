@@ -292,7 +292,30 @@ function formatRecipeCard($recipe) {
                 </div>
             <?php endif; ?>
         </div>
-        
+        <!-- Create Meal Plan Tab -->
+        <div class="tab-content" id="createmealplanTab">
+            <h2 class="section-title">Create Meal Plan</h2>
+            <div style="text-align:center; padding:2rem;">
+                <a href="meal_plan_form.php" class="btn">Start a New Meal Plan</a>
+                <p style="margin-top:1rem; color:#757575;">Plan your meals for the week and generate a shopping list!</p>
+            </div>
+        </div>
+
+        <script>
+            // Add Create Meal Plan tab to the tab list
+            (function() {
+                const tabs = document.getElementById('profileTabs');
+                if (tabs) {
+                    const createTab = document.createElement('div');
+                    createTab.className = 'tab';
+                    createTab.setAttribute('data-tab', 'createmealplan');
+                    createTab.innerHTML = 'Create Meal Plan';
+                    // Insert before Meal Plans tab
+                    const mealPlansTab = tabs.querySelector('[data-tab="mealplans"]');
+                    tabs.insertBefore(createTab, mealPlansTab);
+                }
+            })();
+        </script>
         <!-- Meal Plans Tab -->
         <div class="tab-content" id="mealplansTab">
             <h2 class="section-title">My Meal Plans</h2>

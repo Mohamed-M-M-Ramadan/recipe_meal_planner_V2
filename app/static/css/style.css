@@ -124,3 +124,34 @@ nav a:hover {
 .recipe-content {
     padding: 1rem;
 }
+
+footer {
+    background-color: var(--primary-dark);
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+    margin-top: 3rem;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+}
+
+footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 0.5rem;
+    }
+    .recipe-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    nav li {
+        margin-right: 0;
+    }
+}

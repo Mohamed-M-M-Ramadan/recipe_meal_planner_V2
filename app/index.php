@@ -71,15 +71,15 @@ switch ($page) {
         require_once __DIR__ . '/database/models.php';
         $userModel = new UserModel();
         $recipeModel = new RecipeModel();
-        
+
         $data['user'] = $userModel->getUserById($_SESSION['user_id']);
         $data['userRecipes'] = $recipeModel->getUserRecipes($_SESSION['user_id']);
         $content = __DIR__ . '/templates/users/user_profile.html';
         break;
         
     default:
-        $content = __DIR__ . '/templates/index.html';
+        require_once $content = __DIR__ . '/templates/base.html';
 }
 
 // Render the template
-include __DIR__ . '/templates/base.html';
+include __DIR__ . '/templates/index.html';

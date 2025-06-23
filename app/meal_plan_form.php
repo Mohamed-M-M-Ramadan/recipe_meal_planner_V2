@@ -1,6 +1,4 @@
 <?php
-// c:/xampp/htdocs/recipe_meal_planner/app/meal_plans.php
-
 require_once __DIR__ . '/config/config.php';
 
 // Handle form submission

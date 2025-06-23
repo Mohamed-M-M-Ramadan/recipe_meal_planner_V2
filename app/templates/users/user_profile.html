@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url("../static/css/style.css");
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <!-- User initials or avatar image -->
+                U
+            </div>
+            <div class="profile-info">
+                <h2>{{ user.username }}</h2>
+                <p>{{ user.email }}</p>
+                <div class="profile-actions">
+                    <a href="{{ url_for('users.edit_profile') }}">Edit Profile</a>
+                    <form action="{{ url_for('users.logout') }}" method="post" style="display:inline;">
+                        <button type="submit">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Favorite Recipes</h3>
+            {% if favorite_recipes %}
+                <ul class="favorites-list">
+                    {% for recipe in favorite_recipes %}
+                        <li>
+                            <span>{{ recipe.title }}</span>
+                            <a href="{{ url_for('recipes.view', recipe_id=recipe.id) }}">View</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="empty-state">No favorite recipes yet.</div>
+            {% endif %}
+        </div>
+
+        <div class="section">
+            <h3>My Meal Plans</h3>
+            {% if meal_plans %}
+                <ul class="mealplan-list">
+                    {% for plan in meal_plans %}
+                        <li>
+                            <span>{{ plan.name }}</span>
+                            <a href="{{ url_for('mealplans.view', plan_id=plan.id) }}">View</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="empty-state">No meal plans created yet.</div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
