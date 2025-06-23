@@ -242,6 +242,16 @@ function formatRecipeCard($recipe) {
     
     <div class="container">
         <div class="profile-tabs" id="profileTabs">
+            <div class="tab">
+                <a href="index.php" style="text-decoration:none;color:inherit;">
+                    <span style="vertical-align:middle;">Home</span>
+                </a>
+            </div>
+            <div class="tab">
+                <a href="recipe_form.php" style="text-decoration:none;color:inherit;">
+                    <span style="vertical-align:middle;">Create Recipe</span>
+                </a>
+            </div>
             <div class="tab active" data-tab="recipes">My Recipes</div>
             <div class="tab" data-tab="favorites">Favorites</div>
             <div class="tab" data-tab="mealplans">Meal Plans</div>
