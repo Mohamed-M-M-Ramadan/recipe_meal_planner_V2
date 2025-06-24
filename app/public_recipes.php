@@ -78,15 +78,14 @@ $recipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <header>
         <nav class="navbar">
             <ul class="nav-list">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="my_recipes.php">Your Recipes</a></li>
-                <li><a href="public_recipes.php">Public Recipes</a></li>
-                <li><a href="meal_plans.php">Meal Plans</a></li>
+                <li><a class="nav-btn" href="index.php">Home</a></li>
+                <li><a class="nav-btn" href="my_recipes.php">Your Recipes</a></li>
+                <li><a class="nav-btn" href="public_recipes.php">Public Recipes</a></li>
                 <?php if (AuthService::isLoggedIn()): ?>
-                    <li><a href="profile.php">Profile</a></li>
-                    <li><a href="logout.php">Logout</a></li>
+                    <li><a class="nav-btn" href="profile.php">Profile</a></li>
+                    <li><a class="nav-btn" href="logout.php">Logout</a></li>
                     <?php if (AuthService::isAdmin()): ?>
-                        <li><a href="admin.php">Admin</a></li>
+                        <li><a class="nav-btn" href="admin.php">Admin</a></li>
                     <?php endif; ?>
                 <?php else: ?>
                     <li><a href="login.php">Login</a></li>

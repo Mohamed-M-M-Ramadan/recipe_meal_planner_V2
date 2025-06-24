@@ -69,6 +69,9 @@ switch ($page) {
             // First, delete related meal plans
             $stmt = $db->prepare("DELETE FROM meal_plans WHERE user_id = ?");
             $stmt->execute([$id]);
+            // Then, delete related recipes
+            $stmt = $db->prepare("DELETE FROM recipes WHERE user_id = ?");
+            $stmt->execute([$id]);
             // Then, delete the user
             $stmt = $db->prepare("DELETE FROM users WHERE user_id = ?");
             $stmt->execute([$id]);

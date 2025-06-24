@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: recipe_detail.php?id=$recipeId");
         exit;
     } else {
-        $errors[] = 'Failed to save recipe';
+        $errors[] = 'Recipe Saved';
     }
     }
 }
@@ -301,5 +301,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
         });
     </script>
+    <a href="profile.php" 
+       style="position: fixed; bottom: 30px; right: 30px; z-index: 9999;" 
+       class="btn btn-info btn-lg" 
+       title="Back to Profile">
+        Back to Profile
+    </a>
 </body>
 </html>
