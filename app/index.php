@@ -78,7 +78,7 @@ switch ($page) {
         break;
         
     default:
-        require_once $content = __DIR__ . '/templates/base.html';
+        $content = __DIR__ . '/templates/base.html';
         break;
 }
 
