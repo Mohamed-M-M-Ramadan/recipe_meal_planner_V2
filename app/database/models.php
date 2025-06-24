@@ -181,6 +181,11 @@ class RecipeModel extends Model {
     }
 
     public function saveIngredients($recipeId, $ingredientsData) {
+        // Ensure $recipeId is a valid integer and not boolean
+        if (!is_int($recipeId) || $recipeId <= 0) {
+            throw new InvalidArgumentException("Invalid recipe ID provided to saveIngredients: " . var_export($recipeId, true));
+        }
+
         // First delete existing ingredients
         $stmt = $this->db->prepare("DELETE FROM Recipe_Ingredients WHERE recipe_id = ?");
         $stmt->execute([$recipeId]);

@@ -112,7 +112,22 @@ $meal_plans = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <input type="date" name="end_date" id="end_date" required><br><br>
         <button type="submit">Create Meal Plan</button>
     </form>
-
+    <a href="profile.php" style="
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: #2980b9;
+        color: #fff;
+        padding: 12px 22px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-size: 16px;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.12);
+        transition: background 0.2s;
+        z-index: 1000;
+    " onmouseover="this.style.background='#1c5d8c'" onmouseout="this.style.background='#2980b9'">
+        Back to Profile
+    </a>
     <h2>Your Meal Plans</h2>
     <ul>
         <?php foreach ($meal_plans as $plan): ?>

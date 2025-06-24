@@ -71,8 +71,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'status' => $status
         ];
 
-    if ($recipeId) {
-        // Save ingredients
+    // Handle image upload if applicable
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = IMAGE_UPLOAD_PATH;
+        $fileName = uniqid() . '_' . basename($_FILES['image']['name']);
+        $targetPath = $uploadDir . $fileName;
+        
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
+            $recipeData['image_path'] = $fileName;
+        }
+    }
+
+    if ($recipe) {
+        // Edit mode: update recipe
+        $recipeId = $recipe['recipe_id'];
+        $recipeModel->update($recipeId, $recipeData);
+    } else {
+        // Create mode: insert new recipe
+        $recipeId = $recipeModel->create(
+            $recipeData['user_id'],
+            $recipeData['title'],
+            $recipeData['description'],
+            $recipeData['instructions'],
+            $recipeData['prep_time'],
+            $recipeData['cook_time'],
+            $recipeData['servings'],
+            $recipeData['status'],
+            $recipeData['image_path'] ?? null
+        );
+    }
+
+    // Now that we definitely have a $recipeId, validate and save ingredients
+    if ($recipeId && is_numeric($recipeId)) {
         $ingredientsData = [];
         foreach ($_POST['ingredients'] as $ing) {
             $ingredientsData[] = [
@@ -82,51 +112,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'notes' => $ing['notes'] ?? ''
             ];
         }
+
         $recipeModel->saveIngredients($recipeId, $ingredientsData);
+
+        header("Location: recipe_detail.php?id=$recipeId");
+        exit;
+    } else {
+        $errors[] = 'Failed to save recipe';
     }
-        // Image upload handling
-        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = IMAGE_UPLOAD_PATH;
-            $fileName = uniqid() . '_' . basename($_FILES['image']['name']);
-            $targetPath = $uploadDir . $fileName;
-            
-            if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-                $recipeData['image_path'] = $fileName;
-            }
-        }
-        
-        if ($recipe) {
-            // Update existing recipe
-            $recipeModel->update($recipe['recipe_id'], $recipeData);
-            $recipeId = $recipe['recipe_id'];
-        } else {
-            // Create new recipe
-            $recipeId = $recipeModel->create(
-                $recipeData['user_id'],
-                $recipeData['title'],
-                $recipeData['description'],
-                $recipeData['instructions'],
-                $recipeData['prep_time'],
-                $recipeData['cook_time'],
-                $recipeData['servings'],
-                $recipeData['status'],
-                $recipeData['image_path'] ?? null
-            );
-        }
-        
-        if ($recipeId) {
-            // Save ingredients
-            $recipeModel->saveIngredients($recipeId, $ingredientsData);
-            
-            // Redirect to recipe detail
-            header("Location: recipe_detail.php?id=$recipeId");
-            exit;
-        } else {
-            $errors[] = 'Failed to save recipe';
-        }
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

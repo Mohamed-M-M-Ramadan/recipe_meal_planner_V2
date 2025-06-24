@@ -30,7 +30,6 @@ $recipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <nav>
             <a href="http://localhost/recipe_meal_planner/app">Home</a> |
             <a href="http://localhost/recipe_meal_planner/app/recipes.php">Recipes</a> |
-            <a href="http://localhost/recipe_meal_planner/app/meal_plans.php">Meal Plans</a> |
             <a href="http://localhost/recipe_meal_planner/app/profile.php">Profile</a> |
             <a href="http://localhost/recipe_meal_planner/app/logout.php">Logout</a>
         </nav>

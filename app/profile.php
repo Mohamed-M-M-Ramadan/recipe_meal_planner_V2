@@ -200,14 +200,7 @@ function formatRecipeCard($recipe) {
             color: #757575;
             font-style: italic;
         }
-        
-        .btn-edit {
-            background-color: #ff9800;
-        }
-        
-        .btn-edit:hover {
-            background-color: #f57c00;
-        }
+    
     </style>
 </head>
 <body>
@@ -235,8 +228,6 @@ function formatRecipeCard($recipe) {
                     <div class="stat-label">Meal Plans</div>
                 </div>
             </div>
-            
-            <a href="edit_profile.php" class="btn btn-edit">Edit Profile</a>
         </div>
     </div>
     
