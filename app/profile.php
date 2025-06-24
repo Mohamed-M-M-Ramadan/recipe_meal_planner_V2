@@ -288,7 +288,7 @@ function formatRecipeCard($recipe) {
             <h2 class="section-title">Create Meal Plan</h2>
             <div style="text-align:center; padding:2rem;">
                 <a href="meal_plan_form.php" class="btn">Start a New Meal Plan</a>
-                <p style="margin-top:1rem; color:#757575;">Plan your meals for the week and generate a shopping list!</p>
+                <p style="margin-top:1rem; color:#757575;">Plan your meals for the week!</p>
             </div>
         </div>
 
@@ -322,7 +322,6 @@ function formatRecipeCard($recipe) {
                             </div>
                         </div>
                         <div class="meal-plan-body">
-                            <a href="shopping_list.php?plan_id=<?= $plan['plan_id'] ?>" class="btn">Generate Shopping List</a>
                             <a href="meal_plan_detail.php?id=<?= $plan['plan_id'] ?>" class="btn">View Details</a>
                             
                             <div class="meal-plan-grid">
