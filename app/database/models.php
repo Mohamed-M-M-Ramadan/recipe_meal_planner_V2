@@ -66,6 +66,13 @@ class UserModel extends Model {
         $stmt = $this->db->prepare($sql);
         return $stmt->execute($params);
     }
+
+    public function getAllUsers() {
+    $stmt = $this->db->prepare("SELECT user_id, username, email, user_level_id FROM users");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
 
 class UserService {

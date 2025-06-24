@@ -59,12 +59,27 @@ switch ($page) {
         break;
         
     case 'admin':
-        if (!AuthService::isAdmin()) header('Location: ?page=home');
-        require_once __DIR__ . '/database/models.php';
-        $recipeModel = new RecipeModel();
-        $data['pendingRecipes'] = $recipeModel->getRecipesByStatus('pending');
-        $content = __DIR__ . '/templates/users/admin_dashboard.html';
-        break;
+    if (!AuthService::isAdmin()) header('Location: ?page=home');
+
+    // Handle deletion
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['delete_user'], $_POST['user_id'])) {
+            $id = (int)$_POST['user_id'];
+            $db = Database::getInstance();
+            // First, delete related meal plans
+            $stmt = $db->prepare("DELETE FROM meal_plans WHERE user_id = ?");
+            $stmt->execute([$id]);
+            // Then, delete the user
+            $stmt = $db->prepare("DELETE FROM users WHERE user_id = ?");
+            $stmt->execute([$id]);
+        }
+    }
+
+    $userModel = new UserModel();
+    $data['users'] = $userModel->getAllUsers();  // Add this method if not yet implemented
+    $content = __DIR__ . '/templates/users/admin_users.php';
+    break;
+
         
     case 'profile':
         if (!AuthService::isLoggedIn()) header('Location: ?page=login');

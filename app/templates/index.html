@@ -45,7 +45,7 @@
                     <li><a href="profile.php">Profile</a></li>
                     <li><a href="logout.php">Logout</a></li>
                     <?php if (AuthService::isAdmin()): ?>
-                        <li><a href="/admin.php">Admin</a></li>
+                        <li><a href="?page=admin">Admin</a></li>
                     <?php endif; ?>
                 <?php else: ?>
                     <li><a href="login.php">Login</a></li>
@@ -56,7 +56,7 @@
     </header>
 
     <div class="container">
-        <?php include $content; ?>
+        - <?php include $content; ?>
     </div>
 
     <footer>
