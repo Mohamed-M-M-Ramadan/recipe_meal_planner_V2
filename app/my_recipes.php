@@ -47,5 +47,56 @@ $recipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            background: #4CAF50;
+            color: #fff;
+            margin: 0;
+            padding: 20px 0;
+            text-align: center;
+        }
+        nav {
+            background: #333;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        ul {
+            max-width: 700px;
+            margin: 30px auto;
+            padding: 0;
+            list-style: none;
+        }
+        li {
+            background: #fff;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+        }
+        strong {
+            font-size: 1.2em;
+            color: #333;
+        }
+        p {
+            max-width: 700px;
+            margin: 30px auto;
+            color: #555;
+        }
+    </style></style>
 </body>
 </html>
