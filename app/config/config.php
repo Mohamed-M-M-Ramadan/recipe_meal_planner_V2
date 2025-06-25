@@ -18,7 +18,7 @@ ini_set('display_errors', 1);
 $host = 'sql103.infinityfree.com';
 $db   = 'if0_39316706_recipe_planner';
 $user = 'if0_39316706';
-$pass = 'jBMQYO1cyg';
+$pass = 'jBMQYO1cygA';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
