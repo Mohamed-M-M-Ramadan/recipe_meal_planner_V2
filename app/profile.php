@@ -41,7 +41,7 @@ function formatRecipeCard($recipe) {
                 <span>Cook: ' . $recipe['cook_time'] . ' min</span>
                 <span>Serves: ' . $recipe['servings'] . '</span>
             </div>
-            <a href="recipe_detail.php?id=' . $recipe['recipe_id'] . '" class="btn">View Recipe</a>
+            
         </div>
     </div>';
 }
@@ -321,11 +321,7 @@ function formatRecipeCard($recipe) {
                                 <?= date('M d, Y', strtotime($plan['end_date'])) ?>
                             </div>
                         </div>
-                        <div class="meal-plan-body">
-                            <a href="meal_plan_detail.php?id=<?= $plan['plan_id'] ?>" class="btn">View Details</a>
-                            
-                            <div class="meal-plan-grid">
-                                <!-- Sample content for each day -->
+                        <div class="meal-plan-body">                     
                                 <div class="meal-day">
                                     <div class="day-title">Monday</div>
                                     <div class="meal-item">
@@ -338,7 +334,6 @@ function formatRecipeCard($recipe) {
                                         <span class="meal-type">Dinner:</span> Pasta
                                     </div>
                                 </div>
-                                
                                 <div class="meal-day">
                                     <div class="day-title">Tuesday</div>
                                     <div class="meal-item">
@@ -351,8 +346,66 @@ function formatRecipeCard($recipe) {
                                         <span class="meal-type">Dinner:</span> Stir Fry
                                     </div>
                                 </div>
-                                
-                                <!-- More days would be dynamically generated in a real app -->
+                                <div class="meal-day">
+                                    <div class="day-title">Wednesday</div>
+                                    <div class="meal-item">
+                                        <span class="meal-type">Breakfast:</span> Pancakes
+                                    </div>
+                                    <div class="meal-item">
+                                        <span class="meal-type">Lunch:</span> Soup
+                                    </div>
+                                    <div class="meal-item">
+                                        <span class="meal-type">Dinner:</span> Grilled Chicken
+                                    </div>
+                                </div>
+                                <div class="meal-day">
+                                    <div class="day-title">Thursday</div>
+                                    <div class="meal-item">
+                                        <span class="meal-type">Breakfast:</span> Yogurt & Granola
+                                    </div>
+                                    <div class="meal-item">
+                                        <span class="meal-type">Lunch:</span> Burrito Bowl
+                                    </div>
+                                    <div class="meal-item">
+                                        <span class="meal-type">Dinner:</span> Fish Tacos
+                                    </div>
+                                </div>
+                                <div class="meal-day">
+                                    <div class="day-title">Friday</div>
+                                    <div class="meal-item">
+                                        <span class="meal-type">Breakfast:</span> Bagel & Cream Cheese
+                                    </div>
+                                    <div class="meal-item">
+                                        <span class="meal-type">Lunch:</span> Caesar Salad
+                                    </div>
+                                    <div class="meal-item">
+                                        <span class="meal-type">Dinner:</span> Pizza
+                                    </div>
+                                </div>
+                                <div class="meal-day">
+                                    <div class="day-title">Saturday</div>
+                                    <div class="meal-item">
+                                        <span class="meal-type">Breakfast:</span> French Toast
+                                    </div>
+                                    <div class="meal-item">
+                                        <span class="meal-type">Lunch:</span> BLT Sandwich
+                                    </div>
+                                    <div class="meal-item">
+                                        <span class="meal-type">Dinner:</span> BBQ Ribs
+                                    </div>
+                                </div>
+                                <div class="meal-day">
+                                    <div class="day-title">Sunday</div>
+                                    <div class="meal-item">
+                                        <span class="meal-type">Breakfast:</span> Scrambled Eggs
+                                    </div>
+                                    <div class="meal-item">
+                                        <span class="meal-type">Lunch:</span> Pasta Salad
+                                    </div>
+                                    <div class="meal-item">
+                                        <span class="meal-type">Dinner:</span> Roast Beef
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
