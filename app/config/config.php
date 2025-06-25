@@ -6,7 +6,7 @@ define('DB_USER', 'if0_39316706');
 define('DB_PASS', 'jBMQYO1cygA');
 
 // Application paths
-define('BASE_URL', 'http://localhost/recipe_meal_planner/');
+define('BASE_URL', 'https://rmp.free.nf/');
 define('IMAGE_UPLOAD_PATH', __DIR__ . '/../static/images/');
 
 // Session and security
