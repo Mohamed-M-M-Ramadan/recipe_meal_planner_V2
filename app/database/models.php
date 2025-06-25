@@ -14,7 +14,7 @@ abstract class Model {
 
 class UserModel extends Model {
     public function create($username, $email, $password, $userLevelId = 2) {
-        $stmt = $this->db->prepare("INSERT INTO Users (username, email, password, user_level_id) 
+        $stmt = $this->db->prepare("INSERT INTO users (username, email, password, user_level_id) 
                                    VALUES (?, ?, ?, ?)");
         return $stmt->execute([
             $username, 
@@ -25,34 +25,34 @@ class UserModel extends Model {
     }
 
     public function findByUsername($username) {
-        $stmt = $this->db->prepare("SELECT * FROM Users WHERE username = ?");
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE username = ?");
         $stmt->execute([$username]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function findByEmail($email) {
-        $stmt = $this->db->prepare("SELECT * FROM Users WHERE email = ?");
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->execute([$email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function updateRememberToken($userId, $token) {
-        $stmt = $this->db->prepare("UPDATE Users SET remember_token = ? WHERE user_id = ?");
+        $stmt = $this->db->prepare("UPDATE users SET remember_token = ? WHERE user_id = ?");
         return $stmt->execute([$token, $userId]);
     }
 
     public function clearRememberToken($userId) {
-        $stmt = $this->db->prepare("UPDATE Users SET remember_token = NULL WHERE user_id = ?");
+        $stmt = $this->db->prepare("UPDATE users SET remember_token = NULL WHERE user_id = ?");
         return $stmt->execute([$userId]);
     }
     public function getUserById($userId) {
-        $stmt = $this->db->prepare("SELECT * FROM Users WHERE user_id = ?");
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE user_id = ?");
         $stmt->execute([$userId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function update($userId, $data) {
-        $sql = "UPDATE Users SET username = ?, email = ?";
+        $sql = "UPDATE users SET username = ?, email = ?";
         $params = [$data['username'], $data['email']];
         
         if (isset($data['password'])) {
