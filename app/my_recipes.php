@@ -28,10 +28,10 @@ $recipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <h1>My Recipes</h1>
     <p>
         <nav>
-            <a href="http://localhost/recipe_meal_planner/app">Home</a> |
-            <a href="http://localhost/recipe_meal_planner/app/recipes.php">Recipes</a> |
-            <a href="http://localhost/recipe_meal_planner/app/profile.php">Profile</a> |
-            <a href="http://localhost/recipe_meal_planner/app/logout.php">Logout</a>
+            <a href="index.php">Home</a> |
+            <a href="public_recipes.php">Public Recipes</a> |
+            <a href="profile.php">Profile</a> |
+            <a href="logout.php">Logout</a>
         </nav>
     </p>
     <?php if (empty($recipes)): ?>

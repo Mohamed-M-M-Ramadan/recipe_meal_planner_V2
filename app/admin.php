@@ -132,8 +132,5 @@ $meal_plans = $mysqli->query("SELECT * FROM meal_plans")->fetch_all(MYSQLI_ASSOC
         </tr>
         <?php endforeach; ?>
     </table>
-
-    <!-- Add more admin/moderator features as needed -->
-
 </body>
 </html>

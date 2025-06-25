@@ -84,8 +84,8 @@ class UserService {
     
     public function getFavorites($userId) {
         $stmt = $this->db->prepare("SELECT r.* 
-                                   FROM Recipes r
-                                   JOIN User_Favorites uf ON r.recipe_id = uf.recipe_id
+                                   FROM recipes r
+                                   JOIN user_favorites uf ON r.recipe_id = uf.recipe_id
                                    WHERE uf.user_id = ?");
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -94,7 +94,7 @@ class UserService {
 
 class RecipeModel extends Model {
     public function create($userId, $title, $description, $instructions, $prepTime, $cookTime, $servings, $status = 'private') {
-        $stmt = $this->db->prepare("INSERT INTO Recipes (user_id, title, description, instructions, prep_time, cook_time, servings, status) 
+        $stmt = $this->db->prepare("INSERT INTO recipes (user_id, title, description, instructions, prep_time, cook_time, servings, status) 
                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         return $stmt->execute([$userId, $title, $description, $instructions, $prepTime, $cookTime, $servings, $status]);
     }
@@ -118,51 +118,51 @@ class RecipeModel extends Model {
     }
 
         public function delete($recipeId) {
-        $stmt = $this->db->prepare("DELETE FROM Recipes WHERE recipe_id = ?");
+        $stmt = $this->db->prepare("DELETE FROM recipes WHERE recipe_id = ?");
         return $stmt->execute([$recipeId]);
     }
 
     public function updateStatus($recipeId, $status) {
-        $stmt = $this->db->prepare("UPDATE Recipes SET status = ? WHERE recipe_id = ?");
+        $stmt = $this->db->prepare("UPDATE recipes SET status = ? WHERE recipe_id = ?");
         return $stmt->execute([$status, $recipeId]);
     }
 
     public function incrementViews($recipeId) {
         // First check if views column exists
-        $stmt = $this->db->prepare("SHOW COLUMNS FROM Recipes LIKE 'views'");
+        $stmt = $this->db->prepare("SHOW COLUMNS FROM recipes LIKE 'views'");
         $stmt->execute();
         $columnExists = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if ($columnExists) {
-            $stmt = $this->db->prepare("UPDATE Recipes SET views = views + 1 WHERE recipe_id = ?");
+            $stmt = $this->db->prepare("UPDATE recipes SET views = views + 1 WHERE recipe_id = ?");
             $stmt->execute([$recipeId]);
         }
     }
     public function getRecipesByStatus($status) {
-        $stmt = $this->db->prepare("SELECT * FROM Recipes WHERE status = ?");
+        $stmt = $this->db->prepare("SELECT * FROM recipes WHERE status = ?");
         $stmt->execute([$status]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getRecipeById($recipeId) {
-        $stmt = $this->db->prepare("SELECT * FROM Recipes WHERE recipe_id = ?");
+        $stmt = $this->db->prepare("SELECT * FROM recipes WHERE recipe_id = ?");
         $stmt->execute([$recipeId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getUserRecipes($userId) {
-        $stmt = $this->db->prepare("SELECT * FROM Recipes WHERE user_id = ?");
+        $stmt = $this->db->prepare("SELECT * FROM recipes WHERE user_id = ?");
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getPublicRecipes() {
-        $stmt = $this->db->prepare("SELECT * FROM Recipes WHERE status = 'public'");
+        $stmt = $this->db->prepare("SELECT * FROM recipes WHERE status = 'public'");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     private function getOrCreateIngredient($name) {
-        $stmt = $this->db->prepare("SELECT ingredient_id FROM Ingredients WHERE ingredient_name = ?");
+        $stmt = $this->db->prepare("SELECT ingredient_id FROM ingredients WHERE ingredient_name = ?");
         $stmt->execute([$name]);
         $ing = $stmt->fetch(PDO::FETCH_ASSOC);
         
@@ -170,7 +170,7 @@ class RecipeModel extends Model {
             return $ing['ingredient_id'];
         }
         
-        $stmt = $this->db->prepare("INSERT INTO Ingredients (ingredient_name) VALUES (?)");
+        $stmt = $this->db->prepare("INSERT INTO ingredients (ingredient_name) VALUES (?)");
         $stmt->execute([$name]);
         return $this->db->lastInsertId();
     }
@@ -187,7 +187,7 @@ class RecipeModel extends Model {
         }
 
         // First delete existing ingredients
-        $stmt = $this->db->prepare("DELETE FROM Recipe_Ingredients WHERE recipe_id = ?");
+        $stmt = $this->db->prepare("DELETE FROM recipe_ingredients WHERE recipe_id = ?");
         $stmt->execute([$recipeId]);
         
         // Insert new ingredients
@@ -196,7 +196,7 @@ class RecipeModel extends Model {
         foreach ($ingredientsData as $ing) {
             $ingredientId = $ingredientModel->getOrCreateIngredient($ing['name']);
             
-            $stmt = $this->db->prepare("INSERT INTO Recipe_Ingredients 
+            $stmt = $this->db->prepare("INSERT INTO recipe_ingredients 
                 (recipe_id, ingredient_id, quantity, unit_of_measure, notes)
                 VALUES (?, ?, ?, ?, ?)");
             $stmt->execute([
@@ -217,7 +217,7 @@ class MealPlanModel extends Model {
     }
 
     public function getUserMealPlans($userId) {
-        $stmt = $this->db->prepare("SELECT * FROM Meal_Plans WHERE user_id = ?");
+        $stmt = $this->db->prepare("SELECT * FROM meal_plans WHERE user_id = ?");
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -255,10 +255,10 @@ class shoppingListService extends Model {
                     ri.unit_of_measure,
                     c.category_name,
                     c.category_id
-                FROM Meal_Plan_Items mpi
-                JOIN Recipe_Ingredients ri ON mpi.recipe_id = ri.recipe_id
-                JOIN Ingredients i ON ri.ingredient_id = i.ingredient_id
-                LEFT JOIN Categories c ON i.category_id = c.category_id
+                FROM meal_plan_items mpi
+                JOIN recipe_ingredients ri ON mpi.recipe_id = ri.recipe_id
+                JOIN ingredients i ON ri.ingredient_id = i.ingredient_id
+                LEFT JOIN categories c ON i.category_id = c.category_id
                 WHERE mpi.plan_id = ?
                 GROUP BY i.ingredient_id, ri.unit_of_measure
                 ORDER BY c.category_id";
@@ -293,29 +293,29 @@ class shoppingListService extends Model {
 
 class IngredientModel extends Model {
     public function getAll() {
-        $stmt = $this->db->prepare("SELECT * FROM Ingredients");
+        $stmt = $this->db->prepare("SELECT * FROM ingredients");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getById($ingredientId) {
-        $stmt = $this->db->prepare("SELECT * FROM Ingredients WHERE ingredient_id = ?");
+        $stmt = $this->db->prepare("SELECT * FROM ingredients WHERE ingredient_id = ?");
         $stmt->execute([$ingredientId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function create($ingredientName, $categoryId = null) {
-        $stmt = $this->db->prepare("INSERT INTO Ingredients (ingredient_name, category_id) VALUES (?, ?)");
+        $stmt = $this->db->prepare("INSERT INTO ingredients (ingredient_name, category_id) VALUES (?, ?)");
         return $stmt->execute([$ingredientName, $categoryId]);
     }
 
     public function update($ingredientId, $ingredientName, $categoryId = null) {
-        $stmt = $this->db->prepare("UPDATE Ingredients SET ingredient_name = ?, category_id = ? WHERE ingredient_id = ?");
+        $stmt = $this->db->prepare("UPDATE ingredients SET ingredient_name = ?, category_id = ? WHERE ingredient_id = ?");
         return $stmt->execute([$ingredientName, $categoryId, $ingredientId]);
     }
 
     public function delete($ingredientId) {
-        $stmt = $this->db->prepare("DELETE FROM Ingredients WHERE ingredient_id = ?");
+        $stmt = $this->db->prepare("DELETE FROM ingredients WHERE ingredient_id = ?");
         return $stmt->execute([$ingredientId]);
     }
 
@@ -329,15 +329,15 @@ class IngredientModel extends Model {
 
         public function getIngredientsForRecipe($recipeId) {
         $stmt = $this->db->prepare("SELECT ri.*, i.name as ingredient_name 
-                                   FROM Recipe_Ingredients ri
-                                   JOIN Ingredients i ON ri.ingredient_id = i.ingredient_id
+                                   FROM recipe_ingredients ri
+                                   JOIN ingredients i ON ri.ingredient_id = i.ingredient_id
                                    WHERE ri.recipe_id = ?");
         $stmt->execute([$recipeId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
     public function getOrCreateIngredient($name) {
-        $stmt = $this->db->prepare("SELECT ingredient_id FROM Ingredients WHERE name = ?");
+        $stmt = $this->db->prepare("SELECT ingredient_id FROM ingredients WHERE name = ?");
         $stmt->execute([$name]);
         $ing = $stmt->fetch(PDO::FETCH_ASSOC);
         
@@ -345,7 +345,7 @@ class IngredientModel extends Model {
             return $ing['ingredient_id'];
         }
         
-        $stmt = $this->db->prepare("INSERT INTO Ingredients (name) VALUES (?)");
+        $stmt = $this->db->prepare("INSERT INTO ingredients (name) VALUES (?)");
         $stmt->execute([$name]);
         return $this->db->lastInsertId();
     }
@@ -353,52 +353,52 @@ class IngredientModel extends Model {
 
 class CategoryModel extends Model {
     public function getAll() {
-        $stmt = $this->db->prepare("SELECT * FROM Categories");
+        $stmt = $this->db->prepare("SELECT * FROM categories");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getById($categoryId) {
-        $stmt = $this->db->prepare("SELECT * FROM Categories WHERE category_id = ?");
+        $stmt = $this->db->prepare("SELECT * FROM categories WHERE category_id = ?");
         $stmt->execute([$categoryId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function create($categoryName) {
-        $stmt = $this->db->prepare("INSERT INTO Categories (category_name) VALUES (?)");
+        $stmt = $this->db->prepare("INSERT INTO categories (category_name) VALUES (?)");
         return $stmt->execute([$categoryName]);
     }
 
     public function update($categoryId, $categoryName) {
-        $stmt = $this->db->prepare("UPDATE Categories SET category_name = ? WHERE category_id = ?");
+        $stmt = $this->db->prepare("UPDATE categories SET category_name = ? WHERE category_id = ?");
         return $stmt->execute([$categoryName, $categoryId]);
     }
 
     public function delete($categoryId) {
-        $stmt = $this->db->prepare("DELETE FROM Categories WHERE category_id = ?");
+        $stmt = $this->db->prepare("DELETE FROM categories WHERE category_id = ?");
         return $stmt->execute([$categoryId]);
     }
 }
 
 class FavoriteModel extends Model {
     public function isFavorite($userId, $recipeId) {
-        $stmt = $this->db->prepare("SELECT 1 FROM User_Favorites WHERE user_id = ? AND recipe_id = ?");
+        $stmt = $this->db->prepare("SELECT 1 FROM user_favorites WHERE user_id = ? AND recipe_id = ?");
         $stmt->execute([$userId, $recipeId]);
         return $stmt->fetchColumn() !== false;
     }
 
     public function addFavorite($userId, $recipeId) {
-        $stmt = $this->db->prepare("INSERT IGNORE INTO User_Favorites (user_id, recipe_id) VALUES (?, ?)");
+        $stmt = $this->db->prepare("INSERT IGNORE INTO user_favorites (user_id, recipe_id) VALUES (?, ?)");
         return $stmt->execute([$userId, $recipeId]);
     }
 
     public function removeFavorite($userId, $recipeId) {
-        $stmt = $this->db->prepare("DELETE FROM User_Favorites WHERE user_id = ? AND recipe_id = ?");
+        $stmt = $this->db->prepare("DELETE FROM user_favorites WHERE user_id = ? AND recipe_id = ?");
         return $stmt->execute([$userId, $recipeId]);
     }
 
     public function getUserFavorites($userId) {
-        $stmt = $this->db->prepare("SELECT recipe_id FROM User_Favorites WHERE user_id = ?");
+        $stmt = $this->db->prepare("SELECT recipe_id FROM user_favorites WHERE user_id = ?");
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
